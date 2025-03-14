@@ -1,28 +1,32 @@
 class Solution 
 {
 public:
+    int getGridNumber(int r,int c)
+    {
+        return r*3 + c;
+    }
     bool isValidSudoku(vector<vector<char>>& board) 
     {
-        unordered_set<string> s;
+        vector<short> row(9,0);
+        vector<short> col(9,0);
+        vector<short> grid(9,0);
         for(int i=0;i<9;i++)
         {
             for(int j=0;j<9;j++)
             {
                 if(board[i][j]!='.')
                 {
-                    string s1=to_string(board[i][j])+"at i="+to_string(i);
-                    string s2=to_string(board[i][j])+"at j="+to_string(j);
-                    int row=i/3;
-                    int col=j/3;
-                    string s3=to_string(board[i][j])+"at i="+to_string(row)+", j="+to_string(col);
-                    if(s.find(s1)==s.end() && s.find(s2)==s.end() && s.find(s3)==s.end())
-                    {
-                        s.insert(s1);
-                        s.insert(s2);
-                        s.insert(s3);
-                    }
-                    else
+                    int bitmask = 1 << (board[i][j]-'0'-1); //0 based indexing
+
+                    int k=getGridNumber(i/3,j/3);
+
+                    if(row[i] & bitmask || col[j] & bitmask || grid[k] & bitmask)
                         return false;
+                    
+                    //mark the current number as visited
+                    row[i] |= bitmask;
+                    col[j] |= bitmask;
+                    grid[k] |= bitmask;
                 }                
             }
         }
