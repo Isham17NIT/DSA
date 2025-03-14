@@ -4,7 +4,6 @@ public:
     {
         int fives=0; //count of $5 coins
         int tens=0; //count of $10 coins
-        // sort(bills.begin(),bills.end());
         for(int i=0;i<bills.size();i++)
         {
             if(bills[i]==5)
