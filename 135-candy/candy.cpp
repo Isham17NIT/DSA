@@ -1,25 +1,35 @@
-class Solution {
+class Solution 
+{
 public:
     int candy(vector<int>& ratings) 
     {
+        int sum=1; //first child will be assigned 1 candy
+        int i=1;
         int n=ratings.size();
-        vector<int> left(n);
-        left[0]=1;
-        for(int i=1;i<n;i++)
+        while(i<n)
         {
-            if(ratings[i]>ratings[i-1])
-                left[i]=left[i-1]+1;
-            else
-                left[i]=1; //greedily assign the minm possible
+            if(ratings[i]==ratings[i-1])
+            {
+                sum+=1;
+                i++;
+                continue;
+            }
+            int peak=1;
+            while(i<n && ratings[i]>ratings[i-1])
+            {
+                peak++;
+                sum+=peak;
+                i++;
+            }
+            int down=1;
+            while(i<n && ratings[i]<ratings[i-1])
+            {
+                sum+=down;
+                down++;
+                i++;
+            }
+            sum = sum - peak + max(peak,down);
         }
-        int candies=0;
-        for(int i=n-2;i>=0;i--)
-        {
-            if(ratings[i]>ratings[i+1])
-                left[i]=max(left[i],left[i+1]+1);
-            candies+=left[i];
-        }
-        candies+=left[n-1];
-        return candies;
+        return sum;
     }
 };
