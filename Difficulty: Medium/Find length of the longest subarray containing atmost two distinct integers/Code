@@ -1,0 +1,25 @@
+class Solution 
+{
+  public:
+    int totalElements(vector<int> &arr) 
+    {
+        int maxLen=0, l=0;
+        unordered_map<int,int> freq; //element : freq
+        for(int r=0;r<arr.size();r++)
+        {
+            freq[arr[r]]+=1;
+            
+            while(freq.size()>2)
+            {
+                freq[arr[l]]-=1;
+                if(freq[arr[l]]==0)
+                {
+                    freq.erase(arr[l]);
+                }
+                l++;
+            }
+            maxLen=max(maxLen,r-l+1);
+        }
+        return maxLen;
+    }
+};
