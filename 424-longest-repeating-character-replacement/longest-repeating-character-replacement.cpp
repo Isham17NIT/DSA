@@ -1,14 +1,6 @@
-class Solution {
+class Solution 
+{
 public:
-    int findNewMaxFreq(unordered_map<char,int> freq)
-    {
-        int maxFreq=0;
-        for(auto it : freq)
-        {
-            maxFreq=max(maxFreq, it.second);
-        }
-        return maxFreq;
-    }
     int characterReplacement(string s, int k) 
     {
         int n=s.length();
@@ -24,14 +16,13 @@ public:
             
             changes = (r-l+1) - maxFreq;
 
-            while(changes > k)
+            if(changes > k)
             {
                 freq[s[l]] -= 1;
                 if(freq[s[l]]==0)
                     freq.erase(s[l]);
                 l++;
                 
-                maxFreq = findNewMaxFreq(freq);
                 changes = (r-l+1) - maxFreq;
             }
             maxLen = max(maxLen,r-l+1);
