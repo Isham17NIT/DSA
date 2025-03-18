@@ -1,60 +1,40 @@
 class Solution {
 public:
-    pair<int,char> findNewMaxFreq(int freq[26])
+    int findNewMaxFreq(unordered_map<char,int> freq)
     {
         int maxFreq=0;
-        char maxFreqChar;
-        for(int i=0;i<26;i++)
+        for(auto it : freq)
         {
-            if(maxFreq < freq[i])
-            {
-                maxFreq = freq[i];
-                maxFreqChar = i+'A';
-            }
+            maxFreq=max(maxFreq, it.second);
         }
-        return {maxFreq,maxFreqChar};
+        return maxFreq;
     }
     int characterReplacement(string s, int k) 
     {
         int n=s.length();
         int l=0, maxLen=0, maxFreq=0, changes=0;
-        char maxFreqChar;
-        int freq[26];
-        for(int i=0;i<26;i++)
-        {
-            freq[i]=0;
-        }
+
+        unordered_map<char,int> freq;
 
         for(int r=0;r<n;r++)
         {
-            freq[s[r]-'A'] += 1;
-            if(maxFreq < freq[s[r]-'A'])
-            {
-                maxFreq = freq[s[r]-'A'];
-                maxFreqChar = s[r];
-            }
+            freq[s[r]] += 1;
+            if(maxFreq < freq[s[r]])
+                maxFreq = freq[s[r]];
             
             changes = (r-l+1) - maxFreq;
 
-            if(changes <= k)
+            while(changes > k)
             {
-                maxLen = max(maxLen,r-l+1);
+                freq[s[l]] -= 1;
+                if(freq[s[l]]==0)
+                    freq.erase(s[l]);
+                l++;
+                
+                maxFreq = findNewMaxFreq(freq);
+                changes = (r-l+1) - maxFreq;
             }
-            else
-            {
-                while(changes > k)
-                {
-                    freq[s[l]-'A'] -= 1;
-                    l++;
-                    if(s[l] == maxFreqChar)
-                    {
-                        pair<int,char> p = findNewMaxFreq(freq);
-                        maxFreq = p.first;
-                        maxFreqChar = p.second;
-                    }
-                    changes = (r-l+1) - maxFreq;
-                }
-            }
+            maxLen = max(maxLen,r-l+1);
         }
         return maxLen;
     }
