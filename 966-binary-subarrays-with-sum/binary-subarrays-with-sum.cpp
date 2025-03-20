@@ -1,17 +1,23 @@
 class Solution {
 public:
-    int numSubarraysWithSum(vector<int>& nums, int k) 
+    int countSubarraysLessThanEqualToGoal(vector<int>& nums, int goal)
     {
-        unordered_map<int,int> m;
-        m[0]=1;
-        int sum=0, cnt=0;
-        for(int i=0;i<nums.size();i++)
+        int cnt=0, l=0, r=0, sum=0;
+        while(r<nums.size())
         {
-            sum+=nums[i];
-            if(m.find(sum-k)!=m.end())
-                cnt+=m[sum-k];
-            m[sum]+=1;
+            sum += nums[r];
+            while(l<=r && sum > goal)
+            {
+                sum -= nums[l];
+                l++;
+            }
+            cnt+=(r-l+1);
+            r++;
         }
         return cnt;
+    }
+    int numSubarraysWithSum(vector<int>& nums, int goal) 
+    {
+        return countSubarraysLessThanEqualToGoal(nums,goal)-countSubarraysLessThanEqualToGoal(nums,goal-1);
     }
 };
