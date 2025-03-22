@@ -3,9 +3,9 @@ class Solution
 public:
     int rows[4]={-1,0,1,0};
     int cols[4]={0,1,0,-1};
-    bool isValid(int i,int j,int m,int n,vector<vector<int>>& mat,vector<vector<int>> &distance)
+    bool isValid(int i,int j,int m,int n,vector<vector<int>> &distance)
     {
-        return i>=0 && i<m && j>=0 && j<n && mat[i][j]==1 && distance[i][j]==-1;
+        return i>=0 && i<m && j>=0 && j<n && distance[i][j]==-1;
     }
     void bfs(vector<vector<int>>&mat,int m,int n,queue<pair<int,int>> &q,vector<vector<int>>& distance)
     {
@@ -17,7 +17,7 @@ public:
             {
                 int newRow=curr.first+rows[i];
                 int newCol=curr.second+cols[i];
-                if(isValid(newRow,newCol,m,n,mat,distance))
+                if(isValid(newRow,newCol,m,n,distance))
                 {
                     distance[newRow][newCol]=distance[curr.first][curr.second]+1;
                     q.push({newRow,newCol});
