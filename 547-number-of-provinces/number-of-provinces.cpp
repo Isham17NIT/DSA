@@ -40,7 +40,7 @@ public:
         for(int i=0;i<n;i++)
         {
             parent[i]=i;
-            size[i]=0;
+            size[i]=1;
         }
         for(int i=0;i<n;i++)
         {
