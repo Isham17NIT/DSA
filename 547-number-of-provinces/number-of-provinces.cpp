@@ -58,9 +58,6 @@ public:
         for(int i=0;i<n;i++)
         {
             findParent(parent,i);
-        }
-        for(int i=0;i<n;i++)
-        {
             if(parent[i]==i)
                 cnt++;
         }
