@@ -9,25 +9,17 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
+class Solution 
+{
 public:
-    int findHeight(TreeNode* root)
+    int findMaxDia(TreeNode* root, int &maxDia)
     {
         if(root==nullptr)
             return 0;
-        int lh = findHeight(root->left);
-        int rh = findHeight(root->right);
+        int lh = findMaxDia(root->left, maxDia);
+        int rh = findMaxDia(root->right, maxDia);
+        maxDia = max(maxDia, lh + rh);
         return 1 + max(lh, rh);
-    }
-    void findMaxDia(TreeNode* root, int &maxDia)
-    {
-        if(root==nullptr)
-            return;
-        int lh = findHeight(root->left);
-        int rh = findHeight(root->right);
-        maxDia = max(maxDia, lh+rh);
-        findMaxDia(root->left, maxDia);
-        findMaxDia(root->right, maxDia);
     }
     int diameterOfBinaryTree(TreeNode* root) 
     {
