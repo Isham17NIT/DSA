@@ -26,12 +26,12 @@ public:
             pq.pop();
             if(head==nullptr)
             {
-                head=new ListNode(p.second->val);
+                head=p.second;
                 temp=head;
             }
             else
             {
-                temp->next = new ListNode(p.second->val);
+                temp->next = p.second;
                 temp=temp->next;
             }
                 
