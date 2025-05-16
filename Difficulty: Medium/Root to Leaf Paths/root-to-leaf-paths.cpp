@@ -132,42 +132,50 @@ struct Node
 };
 */
 
-class Solution {
-  public:
-    bool isLeaf(Node* root)
-    {
-        return !root->left && !root->right;
-    }
-    void inorderTraversal(Node* root, vector<vector<int>> &ans, vector<int> temp)
+class Solution 
+{
+  private:
+    void printPaths(Node* root, vector<int> currPath, vector<vector<int>> &ans)
     {
         if(!root)
             return;
-            
-        temp.push_back(root->data);
-        
-        inorderTraversal(root->left, ans, temp);
-        if(isLeaf(root))
+        if(!root->left && !root->right) //leaf node
         {
-            ans.push_back(temp);
+            currPath.push_back(root->data);
+            ans.push_back(currPath);
         }
-        inorderTraversal(root->right, ans, temp);
+        else
+        {
+            currPath.push_back(root->data);
+            printPaths(root->left, currPath, ans);
+            printPaths(root->right, currPath, ans);
+        }
         return;
     }
+  public:
     vector<vector<int>> Paths(Node* root) 
     {
         vector<vector<int>> ans;
-        vector<int> temp;
-        if(!root)
-            return ans;
-        if(isLeaf(root))
-        {
-            ans.push_back({root->data});
-            return ans;
-        }
-        inorderTraversal(root, ans, temp);
+        printPaths(root, vector<int>(), ans);
         return ans;
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
