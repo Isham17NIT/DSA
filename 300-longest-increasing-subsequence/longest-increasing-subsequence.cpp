@@ -1,37 +1,34 @@
-class Solution 
-{
+class Solution {
+private:
+    int findIdx(vector<int> &arr, int num)
+    {
+        int low=0, high=arr.size()-1;
+        while(low<=high)
+        {
+            int mid = (low+high)>>1;
+            if(arr[mid]==num)
+                return mid;
+            else if(arr[mid]>num)
+                high=mid-1;
+            else
+                low=mid+1;
+        }
+        return low;
+    }
 public:
     int lengthOfLIS(vector<int>& infoUnits) 
     {
-        int n=infoUnits.size();
-        vector<int> nextRow(n,0);
-        nextRow[0] = 1;
+       vector<int> arr;
+        arr.push_back(infoUnits[0]);
         
-        for(int prev=1;prev<n;prev++)
+        for(int i=1;i<infoUnits.size();i++)
         {
-            if(infoUnits[n-1] > infoUnits[prev-1])
-                nextRow[prev] = 1;
+            int idx = findIdx(arr, infoUnits[i]);
+            if(idx == arr.size())
+                arr.push_back(infoUnits[i]);
             else
-                nextRow[prev] = 0;
+                arr[idx] = infoUnits[i];
         }
-        for(int idx=n-1;idx>=1;idx--)
-        {
-            vector<int> currRow(n,0);
-            for(int prev=n-1;prev>=0;prev--)
-            {
-                if(prev==0 || infoUnits[idx-1] > infoUnits[prev-1])
-                {
-                    int report = 1 + nextRow[idx];
-                    int notReport = nextRow[prev];
-                    currRow[prev] = max(report, notReport);
-                }
-                else
-                {
-                    currRow[prev] = nextRow[prev];
-                }
-            }
-            nextRow=currRow;
-        }
-        return nextRow[0];
+        return arr.size(); 
     }
 };
