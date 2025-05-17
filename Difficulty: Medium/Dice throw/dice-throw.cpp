@@ -11,19 +11,20 @@ class Solution
     int noOfWays(int m, int n, int x) 
     {
         vector<int> prevRow(x+1,0);
-        prevRow[0] = 1;
-        for(int i=1;i<=n;i++) //diceNo
+        prevRow[0]=1;
+        
+        for(int diceNo=1;diceNo<=n;diceNo++)
         {
             vector<int> currRow(x+1);
             currRow[0] = 0;
-            for(int j=1;j<=x;j++) //x
+            for(int target=1;target<=x;target++)
             {
-               int ways=0;
-               for(int k=1;k<=min(m,j);k++) //face no.
-               {
-                   ways += prevRow[j-k];
-               }
-               currRow[j]=ways;
+                int numWays=0;
+                for(int face=1;face<=min(m,target);face++)
+                {
+                    numWays += prevRow[target-face];
+                }
+                currRow[target] = numWays;
             }
             prevRow = currRow;
         }
