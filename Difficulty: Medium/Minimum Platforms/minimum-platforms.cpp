@@ -6,31 +6,51 @@ using namespace std;
 // } Driver Code Ends
 
 class Solution {
+  private:
+    int findMinArrivalTime(vector<int> &arr)
+    {
+        int minm=INT_MAX;
+        for(int i : arr)
+        {
+            minm = min(i, minm);
+        }
+        return minm;
+    }
+    int findMaxDepartureTime(vector<int> &dep)
+    {
+        int maxm=INT_MIN;
+        for(int i : dep)
+        {
+            maxm=max(i,maxm);
+        }
+        return maxm;
+    }
   public:
     // Function to find the minimum number of platforms required at the
     // railway station such that no train waits.
     int findPlatform(vector<int>& arr, vector<int>& dep) 
     {
-        int p=0; //platforms required
-        int cnt=0; //count of occupied platforms
-        sort(arr.begin(),arr.end());
-        sort(dep.begin(),dep.end());
-        int i=0,j=0;
-        while(i<arr.size())
+        int minAtime = findMinArrivalTime(arr); //considering this as start point
+        int maxDeptTime = findMaxDepartureTime(dep) - minAtime;
+        
+        int res=0, count=0;
+        
+        vector<int> v(maxDeptTime+2,0);
+        int n=arr.size();
+        
+        for (int i = 0; i < n; i++) 
         {
-            if(arr[i]<=dep[j])
-            {
-                cnt++;
-                p=max(p,cnt);
-                i++;
-            }
-            else
-            {
-                cnt--;
-                j++;
-            }
+            v[arr[i]-minAtime]++;
+            v[dep[i]-minAtime + 1]--;
         }
-        return p;
+        
+        for (int i = 0; i <= maxDeptTime + 1; i++) 
+        {
+            count += v[i];
+            res = max(res, count);
+        }
+    
+        return res;
     }
 };
 
