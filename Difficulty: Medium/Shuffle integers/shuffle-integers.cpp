@@ -3,18 +3,14 @@ class Solution {
   public:
     void shuffleArray(int arr[], int n) 
     {
-        if(n < 3)   
-            return;
-        int i=1, j=n/2;
-        for(int j=n/2;j<n-1;j++)
+        for(int i=0;i<n/2;i++)
         {
-            int el = arr[j];
-            for(int k=j-1;k>=i;k--)
-            {
-                arr[k+1]=arr[k];
-            }
-            arr[i] = el;
-            i+=2;
+            arr[i] = arr[i] | (arr[n/2 + i] << 10);
+        }
+        for(int i=n/2 - 1;i>=0;i--)
+        {
+            arr[i*2 + 1] = (arr[i] >> 10);
+            arr[i*2] = (arr[i] & 1023);
         }
     }
 };
