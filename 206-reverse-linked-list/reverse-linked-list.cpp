@@ -9,20 +9,22 @@
  * };
  */
 class Solution {
+private: 
+    ListNode* LLreverse(ListNode* prev, ListNode* curr, ListNode* temp)
+    {
+        if(!curr->next){
+            curr->next = prev;
+            return curr;
+        }
+        curr->next = prev;
+        return LLreverse(curr, temp, temp->next);
+    }
 public:
     ListNode* reverseList(ListNode* head) 
     {
         if(!head || !head->next)
             return head;
         ListNode* prev = nullptr, *curr = head, *temp = head->next;
-        while(curr)
-        {
-            curr->next = prev;
-            prev = curr;
-            curr = temp;
-            if(temp)
-                temp=temp->next;
-        }
-        return prev;
+        return LLreverse(prev, curr, temp);
     }
 };
