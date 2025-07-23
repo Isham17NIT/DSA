@@ -22,19 +22,21 @@ public:
         while(!q.empty())
         {
             int n=q.size();
-            vector<int> currLevel;
+            vector<int> currLevel(n,0);
             for(int i=0;i<n;i++)
             {
                 TreeNode* curr = q.front();
                 q.pop();
-                currLevel.push_back(curr->val);
+                if(LtoR)
+                    currLevel[i] = curr->val;
+                else
+                    currLevel[n-1-i] = curr->val;
+                    
                 if(curr->left)
-                    q.push(curr->left);
+                    q.push(curr->left);              
                 if(curr->right)
                     q.push(curr->right);
             }
-            if(!LtoR)
-                reverse(currLevel.begin(),currLevel.end());
             ans.push_back(currLevel);
             LtoR = !LtoR;
         }
