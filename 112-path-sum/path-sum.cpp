@@ -15,11 +15,8 @@ public:
     {
         if(!root)
             return false;
-        int remSum = targetSum - root->val;
-        if(!root->left && !root->right)
-            return remSum==0;
-        int leftCheck = hasPathSum(root->left, remSum);
-        int rightCheck = hasPathSum(root->right, remSum);
-        return leftCheck || rightCheck;
+        if(root->val == targetSum && !root->left && !root->right)
+            return true;
+        return hasPathSum(root->left, targetSum-root->val) || hasPathSum(root->right, targetSum-root->val);
     }
 };
