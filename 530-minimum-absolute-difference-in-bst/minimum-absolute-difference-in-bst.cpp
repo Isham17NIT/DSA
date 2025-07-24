@@ -12,25 +12,23 @@
 class Solution 
 {
 private:
-    void inorderTraversal(TreeNode* root,vector<int> &traversal)
+    void inorderTraversal(TreeNode* root,int &prev,int &minDiff)
     {
         if(root){
-            inorderTraversal(root->left,traversal);
-            traversal.push_back(root->val);
-            inorderTraversal(root->right,traversal);
+            inorderTraversal(root->left,prev,minDiff);
+            if(prev!=-1)
+                minDiff = min(minDiff,abs(prev - root->val));
+            prev = root->val;
+            inorderTraversal(root->right,prev,minDiff);
         }
         return;
     }
 public:
     int getMinimumDifference(TreeNode* root) 
     {
-        vector<int> traversal;
-        inorderTraversal(root,traversal);
         int minDiff = INT_MAX;
-        for(int i=0;i<traversal.size()-1;i++)
-        {
-            minDiff = min(minDiff, abs(traversal[i] - traversal[i+1]));
-        }
+        int prev = -1;
+        inorderTraversal(root,prev,minDiff);
         return minDiff;
     }
 };
