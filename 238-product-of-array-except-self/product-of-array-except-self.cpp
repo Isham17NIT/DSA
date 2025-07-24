@@ -4,27 +4,21 @@ public:
     {
         int n=nums.size();
         vector<int> ans(n,0);
-        vector<int> lp(n,0);
-        vector<int> rp(n,0); 
-        lp[0] = nums[0];
-        rp[n-1] = nums[n-1];
+        int prod=1;
+        // left Products------>ans[i] will be product of all elements from 0 to i-1
         for(int i=1;i<n;i++)
         {
-            lp[i] = lp[i-1]*nums[i];
+            ans[i] = prod*nums[i-1];
+            prod = ans[i];
         }
+        prod = 1;
         for(int i=n-2;i>=0;i--)
         {
-            rp[i] = rp[i+1]*nums[i];
-        }
-        for(int i=0;i<n;i++)
-        {
             if(i==0)
-                ans[i] = rp[1];
-            else if(i==n-1)
-                ans[i] = lp[n-2];
-            else{
-                ans[i] = lp[i-1]*rp[i+1];
-            }
+                ans[i] = nums[i+1]*prod;
+            else
+                ans[i] = ans[i]*nums[i+1]*prod;
+            prod = nums[i+1]*prod;
         }
         return ans;
     }
