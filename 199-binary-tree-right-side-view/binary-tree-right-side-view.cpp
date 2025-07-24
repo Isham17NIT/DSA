@@ -11,45 +11,28 @@
  */
 class Solution {
 public:
-    void levelOrderTraversal(TreeNode* root,vector<int> &ans)
-    {
-        queue<TreeNode*> q;
-        q.push(root);
-
-        int cnt=1; // no. of nodes in current level
-        int child=0; //no. of nodes in next level
-
-        while(!q.empty())
-        {
-            vector<int> currLevel;
-            while(cnt > 0)
-            {
-                TreeNode* curr = q.front();
-                currLevel.push_back(curr->val);
-                q.pop();
-                if(curr->left){
-                    q.push(curr->left);
-                    child++;
-                }
-                if(curr->right){
-                    q.push(curr->right);
-                    child++;
-                }
-                cnt--;
-            }
-            cnt = child;
-            child = 0;
-            if(!currLevel.empty())
-                ans.push_back(currLevel.back());
-        }
-        return;
-    }
     vector<int> rightSideView(TreeNode* root) 
     {
         vector<int> ans;
-        if(!root)
+        if(!root)   
             return ans;
-        levelOrderTraversal(root, ans);
+        queue<TreeNode*> q;
+        q.push(root);
+        while(!q.empty())
+        {
+            int n=q.size();
+            for(int i=0;i<n;i++)
+            {
+                TreeNode* curr = q.front();
+                q.pop();
+                if(curr->left)
+                    q.push(curr->left);
+                if(curr->right)
+                    q.push(curr->right);
+                if(i==n-1) //last element of current level
+                    ans.push_back(curr->val);
+            }
+        }
         return ans;
     }
 };
