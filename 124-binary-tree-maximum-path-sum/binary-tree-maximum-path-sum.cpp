@@ -10,7 +10,7 @@
  * };
  */
 class Solution {
-public:
+private:
     int findMaxSum(TreeNode* root,int &maxSum)
     {
         if(!root)
@@ -19,13 +19,14 @@ public:
         int rSum = findMaxSum(root->right, maxSum);
         lSum = lSum < 0 ? 0 : lSum;
         rSum = rSum < 0 ? 0 : rSum;
-        maxSum = max(maxSum, root->val + lSum + rSum);
+        maxSum = max(maxSum, lSum+rSum+root->val);
         return root->val + max(lSum, rSum);
     }
+public:
     int maxPathSum(TreeNode* root) 
     {
-        int maxSum =INT_MIN;
-        findMaxSum(root,maxSum);          
-        return maxSum;  
+        int maxSum = INT_MIN;
+        findMaxSum(root, maxSum);
+        return maxSum;
     }
 };
