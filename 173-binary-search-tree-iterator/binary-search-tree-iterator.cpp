@@ -10,33 +10,37 @@
  * };
  */
 class BSTIterator {
-    vector<int> traversal;
-    int ptr;
-private:
-    void inorderTraversal(TreeNode* root, vector<int> &traversal)
-    {
-        if(root){
-            inorderTraversal(root->left, traversal);
-            traversal.push_back(root->val);
-            inorderTraversal(root->right, traversal);
-        }
-        return;
-    }
+    stack<TreeNode*> s;
 public:
     BSTIterator(TreeNode* root) 
     {
-        traversal = vector<int>();
-        ptr=0;
-        inorderTraversal(root, traversal);
+        s = stack<TreeNode*>();
+        TreeNode* temp = root;
+        while(temp)
+        {
+            s.push(temp);
+            temp = temp->left;
+        }
     }
     
     int next() 
     {
-        return traversal[ptr++];
+        TreeNode* curr = s.top();
+        s.pop();
+        int ans = curr->val;
+        if(curr->right) //push everything on its right onto the stack
+        {
+            curr = curr->right;
+            while(curr){
+                s.push(curr);
+                curr=curr->left;
+            }
+        }
+        return ans;
     }
     
     bool hasNext() {
-        return ptr < traversal.size();
+        return !s.empty();
     }
 };
 
