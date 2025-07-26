@@ -11,30 +11,22 @@
  */
 class Solution {
 public:
-    void flatten(TreeNode* root) {
-        if(!root)
-            return;
-        TreeNode* prev = nullptr;
-        stack<TreeNode*> s;
-        s.push(root);
-        while(!s.empty())
+    void flatten(TreeNode* root) 
+    {
+        TreeNode* temp = root;
+        while(temp)
         {
-            TreeNode* curr = s.top();
-            s.pop();
-            if(curr->right)
-                s.push(curr->right);
-            if(curr->left)
-                s.push(curr->left);
-            if(!prev){
-                prev = curr;
-                prev->right = nullptr;
+            if(temp->left) //find rightmost node of left subtree and attach it to right subtree
+            {
+                TreeNode* temp1 = temp->left;
+                while(temp1->right){
+                    temp1 = temp1->right;
+                }
+                temp1->right = temp->right;
+                temp->right = temp->left;
+                temp->left = nullptr;
             }
-            else{
-                prev->right = curr;
-                prev = prev->right;
-            }
-            curr->left = nullptr;
+            temp = temp->right;
         }
-        return;
     }
 };
