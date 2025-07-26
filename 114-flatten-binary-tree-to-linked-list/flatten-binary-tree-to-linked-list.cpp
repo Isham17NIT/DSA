@@ -10,26 +10,31 @@
  * };
  */
 class Solution {
-private:
-    void flattenLL(TreeNode* root)
-    {
-        if(root)
+public:
+    void flatten(TreeNode* root) {
+        if(!root)
+            return;
+        TreeNode* prev = nullptr;
+        stack<TreeNode*> s;
+        s.push(root);
+        while(!s.empty())
         {
-            flattenLL(root->left);
-            flattenLL(root->right);
-            TreeNode* temp = root->right;
-            root->right = root->left;
-            root->left = nullptr;
-            TreeNode* temp1 = root;
-            while(temp1->right){
-                temp1 = temp1->right;
+            TreeNode* curr = s.top();
+            s.pop();
+            if(curr->right)
+                s.push(curr->right);
+            if(curr->left)
+                s.push(curr->left);
+            if(!prev){
+                prev = curr;
+                prev->right = nullptr;
             }
-            temp1->right = temp;
+            else{
+                prev->right = curr;
+                prev = prev->right;
+            }
+            curr->left = nullptr;
         }
         return;
-    }
-public:
-    void flatten(TreeNode* &root) {
-        flattenLL(root);
     }
 };
