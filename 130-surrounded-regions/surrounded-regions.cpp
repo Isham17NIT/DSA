@@ -1,60 +1,58 @@
 class Solution 
 {
-public:
+private:
     int rows[4]={-1,0,1,0};
     int cols[4]={0,1,0,-1};
-    bool isValid(int i,int j,int m,int n,vector<vector<bool>> &visited,vector<vector<char>>& board)
+    bool isValid(int i,int j,int m,int n,vector<vector<char>>& board,vector<vector<bool>> &visited)
     {
         return i>=0 && i<m && j>=0 && j<n && !visited[i][j] && board[i][j]=='O';
     }
-    void dfsVisit(vector<vector<char>>& board,int i,int j,int m,int n,vector<vector<bool>> &visited)
+    void bfs(int i,int j,int m,int n,vector<vector<char>>& board,vector<vector<bool>> &visited)
     {
+        queue<pair<int,int>> q;
+        q.push({i,j});
         visited[i][j]=true;
-        for(int k=0;k<4;k++)
+        while(!q.empty())
         {
-            int newRow=i+rows[k];
-            int newCol=j+cols[k];
-            if(isValid(newRow,newCol,m,n,visited,board))
-                dfsVisit(board,newRow,newCol,m,n,visited);
+            pair<int,int> p=q.front();
+            q.pop();
+            for(int k=0;k<4;k++)
+            {
+                int newRow=p.first+rows[k];
+                int newCol=p.second+cols[k];
+                if(isValid(newRow,newCol,m,n,board,visited)){
+                    q.push({newRow,newCol});
+                    visited[newRow][newCol]=true;
+                }
+            }
         }
     }
+public:
     void solve(vector<vector<char>>& board) 
     {
-        int m=board.size();
-        int n=board[0].size();
+        int m=board.size(), n=board[0].size();
         vector<vector<bool>> visited(m,vector<bool>(n,false));
-        //first row
-        for(int j=0;j<n;j++)
-        {
-            if(board[0][j]=='O' && !visited[0][j])
-                dfsVisit(board,0,j,m,n,visited);
-        }
-        //last row
-        for(int j=0;j<n;j++)
-        {
-            if(board[m-1][j]=='O' && !visited[m-1][j])
-                dfsVisit(board,m-1,j,m,n,visited);
-        }
-        //first col
         for(int i=0;i<m;i++)
         {
-            if(board[i][0]=='O' && !visited[i][0])
-                dfsVisit(board,i,0,m,n,visited);
+            if(!visited[i][0] && board[i][0]=='O')
+                bfs(i,0,m,n,board,visited);
+            if(!visited[i][n-1] && board[i][n-1]=='O')
+                bfs(i,n-1,m,n,board,visited);
         }
-        //last col
-        for(int i=0;i<m;i++)
+        for(int i=1;i<n-1;i++)
         {
-            if(board[i][n-1]=='O' && !visited[i][n-1])
-                dfsVisit(board,i,n-1,m,n,visited);
+            if(!visited[0][i] && board[0][i]=='O')
+                bfs(0,i,m,n,board,visited);
+            if(!visited[m-1][i] && board[m-1][i]=='O')
+                bfs(m-1,i,m,n,board,visited);
         }
-        for(int i=0;i<m;i++)
+        for(int i=1;i<m-1;i++)
         {
-            for(int j=0;j<n;j++)
+            for(int j=1;j<n-1;j++)
             {
-                if(!visited[i][j] && board[i][j]=='O')
+                if(!visited[i][j])
                     board[i][j]='X';
             }
         }
-        return;
     }
 };
