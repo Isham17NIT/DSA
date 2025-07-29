@@ -8,36 +8,33 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-class Solution 
-{
+class Solution {
+private:
+    struct Compare{
+        bool operator()(ListNode* a,ListNode* b){
+            return a->val > b->val;
+        }
+    };
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) 
     {
-        ListNode* head = nullptr, *temp = nullptr;
-        priority_queue<pair<int,ListNode*>, vector<pair<int, ListNode*>>, greater<pair<int, ListNode*>>> pq; //minHeap
+        ListNode* dummy = new ListNode(0);
+        ListNode* temp=dummy;
+        priority_queue<ListNode*,vector<ListNode*>, Compare> pq;
         for(ListNode* l : lists)
         {
             if(l)
-                pq.push({l->val,l});
+                pq.push(l);
         }
         while(!pq.empty())
         {
-            pair<int,ListNode*> p = pq.top();
+            ListNode* l=pq.top();
             pq.pop();
-            if(head==nullptr)
-            {
-                head=p.second;
-                temp=head;
-            }
-            else
-            {
-                temp->next = p.second;
-                temp=temp->next;
-            }
-                
-            if(p.second->next)
-                pq.push({p.second->next->val, p.second->next});
+            if(l->next)
+                pq.push(l->next);
+            temp->next=l;
+            temp=temp->next;
         }
-        return head;
+        return dummy->next;
     }
 };
