@@ -12,19 +12,20 @@
 class Solution 
 {
 private:
-    TreeNode* constructBST(vector<int> &nums,int start, int end)
+    TreeNode* createTree(int low,int high,vector<int>& nums)
     {
-        if(start> end)
+        if(low>high)
             return nullptr;
-        int rootIdx = (start+end)>>1;
-        TreeNode* root = new TreeNode(nums[rootIdx]);
-        root->left = constructBST(nums,start,rootIdx-1);
-        root->right = constructBST(nums, rootIdx+1, end);
+        int mid=(low+high)/2;
+        TreeNode* root=new TreeNode(nums[mid]);
+        root->left=createTree(low,mid-1,nums);
+        root->right=createTree(mid+1,high,nums);
         return root;
     }
 public:
     TreeNode* sortedArrayToBST(vector<int>& nums) 
     {
-        return constructBST(nums,0,nums.size()-1);
+        int low=0, high=nums.size()-1;
+        return createTree(low,high,nums);
     }
 };
