@@ -30,16 +30,20 @@ public:
             return head;
         ListNode* ptr1=head, *ptr2=head, *prevptr1=head, *nextptr2=head;
         int i=0;
-        while(i<left-1){
-            i+=1;
-            prevptr1=ptr1;
-            ptr1=ptr1->next;
-        }
-        i=0;
         while(i<right-1){
-            i+=1;
-            ptr2=ptr2->next;
-            nextptr2=ptr2->next;
+            if(i<left-1)
+            {
+                i+=1;
+                prevptr1=ptr1;
+                ptr1=ptr1->next;
+            }
+            else{
+                if(i==left-1)
+                    ptr2=ptr1;
+                i+=1;
+                ptr2=ptr2->next;
+                nextptr2=ptr2->next;
+            }
         }
         ListNode* newHead = reverseLL(ptr1,ptr2);
         if(ptr1==head && ptr2->next==nullptr) //full list has to reversed
