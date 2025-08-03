@@ -14,10 +14,10 @@ private:
         {
             int newRow = i+rows[k];
             int newCol = j+cols[k];
-            if(isValid(newRow, newCol, m, n) && board[newRow][newCol]==1)
+            if(isValid(newRow, newCol, m, n) && board[newRow][newCol]&1)
                 cnt++;
         }
-        if(board[i][j]==0){
+        if((board[i][j]&1) == 0){
             if(cnt==3)
                 return 1;
             else
@@ -32,19 +32,19 @@ public:
     void gameOfLife(vector<vector<int>>& board) 
     {
         int m=board.size(), n=board[0].size();
-        vector<vector<int>> arr(m,vector<int>(n,0));
+        // 2 bits --> newState currState
         for(int i=0;i<m;i++)
         {
             for(int j=0;j<n;j++)
             {
-                arr[i][j] = applyRules(board,i,j);
+                board[i][j] |= (applyRules(board,i,j) << 1);
             }
         }
         for(int i=0;i<m;i++)
         {
             for(int j=0;j<n;j++)
             {
-                board[i][j] = arr[i][j];
+                board[i][j] >>= 1;
             }
         }
     }
