@@ -1,17 +1,15 @@
-class Solution 
-{
+class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) 
     {
-        vector<int> ans;
-        int m=matrix.size();
-        int n=matrix[0].size();
+        int m=matrix.size(), n=matrix[0].size();
         int minRow=0, minCol=0, maxRow=m-1, maxCol=n-1;
-        while(minRow<=maxRow && minCol<=maxCol)
+        vector<int> ans;
+        while(minRow<maxRow && minCol<maxCol)
         {
-            for(int i=minCol;i<=maxCol;i++)
+            for(int j=minCol;j<=maxCol;j++)
             {
-                ans.push_back(matrix[minRow][i]);
+                ans.push_back(matrix[minRow][j]);
             }
             minRow++;
             for(int i=minRow;i<=maxRow;i++)
@@ -19,22 +17,36 @@ public:
                 ans.push_back(matrix[i][maxCol]);
             }
             maxCol--;
-            if(minRow <= maxRow)
+            if(minCol<maxCol)
             {
-                for(int i=maxCol;i>=minCol;i--)
+                for(int j=maxCol;j>=minCol;j--)
                 {
-                    ans.push_back(matrix[maxRow][i]);
+                    ans.push_back(matrix[maxRow][j]);
                 }
                 maxRow--;
-            }        
-            if(minCol <= maxCol)
+            }
+            if(minRow<maxRow)
             {
                 for(int i=maxRow;i>=minRow;i--)
                 {
                     ans.push_back(matrix[i][minCol]);
                 }
                 minCol++;
-            }    
+            }
+        }
+        if(minRow==maxRow && minCol==maxCol)
+            ans.push_back(matrix[minRow][minCol]);
+        else if(minRow==maxRow)
+        {
+            for(int j=minCol;j<=maxCol;j++){
+                ans.push_back(matrix[minRow][j]);
+            }
+        }
+        else if(minCol==maxCol)
+        {
+            for(int j=minRow;j<=maxRow;j++){
+                ans.push_back(matrix[j][minCol]);
+            }
         }
         return ans;
     }
