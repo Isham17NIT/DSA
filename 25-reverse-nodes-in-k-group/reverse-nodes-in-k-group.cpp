@@ -20,7 +20,7 @@ private:
         }
         return k>1 ? nullptr : temp;
     }
-    ListNode* reverseLL(ListNode* &ptr1, ListNode* &ptr2)
+    void reverseLL(ListNode* &ptr1, ListNode* &ptr2)
     {
         ListNode* prevptr=nullptr, *curr=ptr1, *nextptr=ptr1->next;
         while(curr!=ptr2)
@@ -31,7 +31,7 @@ private:
             nextptr=nextptr->next;
         }
         curr->next=prevptr;
-        return curr;
+        return;
     }
 public:
     ListNode* reverseKGroup(ListNode* head, int k) 
