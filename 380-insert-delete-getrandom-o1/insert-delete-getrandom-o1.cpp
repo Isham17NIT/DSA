@@ -1,31 +1,37 @@
 class RandomizedSet {
 private:
-    set<int> s;
+    map<int,int> m;
+    vector<int> arr;
 public:
     RandomizedSet() {
-        s=set<int>();
+        m=map<int,int>();
+        arr=vector<int>();
     }
     
     bool insert(int val) {
-        if(s.find(val)==s.end()){
-            s.insert(val);
+        if(m.find(val)==m.end()){
+            m[val]=m.size();
+            arr.push_back(val);
             return true;
         }
         return false;
     }
     
     bool remove(int val) {
-        if(s.find(val)!=s.end()){
-            s.erase(val);
+        if(m.find(val)!=m.end()){
+            int idx=m[val];
+            m[arr[m.size()-1]]=idx;
+            swap(arr[m.size()-1],arr[idx]); //O(1)
+            arr.pop_back();
+            m.erase(val);
             return true;
         }
         return false;
     }
     
     int getRandom() {
-        auto it=s.begin();
-        advance(it, rand()%s.size());
-        return *it;
+        int idx=rand()%m.size();
+        return arr[idx];
     }
 };
 
