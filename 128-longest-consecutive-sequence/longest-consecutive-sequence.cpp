@@ -4,22 +4,26 @@ public:
     {
         if(nums.size()==0)
             return 0;
+        unordered_set<int> s;
         int longest=1, curr=1;
-        sort(nums.begin(),nums.end());
-        int prev=nums[0];
-        for(int i=1;i<nums.size();i++)
+        for(int i : nums)
         {
-            if(nums[i]==prev)
+            s.insert(i);
+        }
+        for(int i : s)
+        {
+            if(s.find(i-1)!=s.end()) //means i is not the starting pt of the seq
                 continue;
-            else if(nums[i]==1+prev)
+            else // i is the starting pt of the seq
             {
-                curr++;
-                longest=max(longest,curr);
-                prev=nums[i];
-            }
-            else{
                 curr=1;
-                prev=nums[i];
+                int j=1;
+                while(s.find(i+j)!=s.end())
+                {
+                    curr++;
+                    j++;
+                }
+                longest=max(longest, curr);
             }
         }
         return longest;
