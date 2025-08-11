@@ -18,31 +18,15 @@ public:
             return s;
 
         vector<string> mat(numRows, "");
-        int i=0;
-        bool dir=true; // true : U to D  
+        int i=0, step=1; 
         for(int k=0;k<s.length();k++)
         {
             mat[i]+=s[k];
-            if(dir) //up to down dir
-            {
-                if(i==numRows-1)
-                {
-                    i--;
-                    dir=false;
-                }
-                else
-                    i++;
-            }
-            else{
-                if(i==0)
-                {
-                    i++;
-                    dir=true;
-                }
-                else{
-                    i--;
-                }
-            }
+            if(i==numRows-1)
+                step=-1;
+            else if(i==0)
+                step=1;
+            i+=step;
         }
         return generateString(mat);
     }
