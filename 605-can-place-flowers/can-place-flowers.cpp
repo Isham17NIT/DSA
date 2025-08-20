@@ -9,22 +9,19 @@ public:
             return flowerbed[0]==0;
         while(i<len && n>0){
             if(flowerbed[i]==1){
-                i++;
-                continue;
+                i+=2;
             }
-            if(i==0 && flowerbed[i+1]!=1){
-                flowerbed[i]=1;
-                n--;
-            }                
-            else if(i==len-1 && flowerbed[i-1]!=1){
-                flowerbed[i]=1;
-                n--;
+            else{
+                bool leftEmpty = (i==0) || flowerbed[i-1]==0;
+                bool rightEmpty = (i==len-1) || flowerbed[i+1]==0;
+                if(leftEmpty && rightEmpty){
+                    flowerbed[i]=1;
+                    n--;
+                    i+=2;
+                }
+                else
+                    i++;
             }
-            else if(i>0 && i<len-1 && flowerbed[i-1]!=1 && flowerbed[i+1]!=1){
-                flowerbed[i]=1;
-                n--;
-            }
-            i++;
         }
         return n==0;
     }
