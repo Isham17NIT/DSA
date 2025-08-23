@@ -1,17 +1,18 @@
 class Solution {
 public:
-    string removeStars(string str) 
+    string removeStars(string s) 
     {
-        string ans="";
-        for(char c : str)
+        int k=-1;
+        for(char c : s)
         {
             if(c=='*'){
-                if(!ans.empty())
-                    ans.pop_back();
+                if(k>-1)
+                    k--;
             }
-            else
-                ans+=c;
+            else{
+                s[++k]=c;
+            }
         }
-        return ans;
+        return s.substr(0,k+1);
     }
 };
