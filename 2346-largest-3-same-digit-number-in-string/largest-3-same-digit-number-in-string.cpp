@@ -16,6 +16,7 @@ public:
                         ans=num.substr(i-2,3);
                     else if(ans[0]-'0' < num[i]-'0')
                         ans=num.substr(i-2,3);
+                    prevLen=0;
                 }
             }
             else
