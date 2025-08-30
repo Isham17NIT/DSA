@@ -3,24 +3,14 @@ class Solution
 public:
     string largestGoodInteger(string num) 
     {
-        int prevLen=1;
         string ans="";
-        for(int i=1;i<num.size();i++)
+        for(int i=1;i+1<num.size();i+=1)
         {
-            if(prevLen>=1 && num[i-1]==num[i])
+            if(num[i-1]==num[i] && num[i]==num[i+1])
             {
-                prevLen++;
-                if(prevLen==3)
-                {
-                    if(ans=="")
-                        ans=num.substr(i-2,3);
-                    else if(ans[0]-'0' < num[i]-'0')
-                        ans=num.substr(i-2,3);
-                    prevLen=0;
-                }
+                if(ans=="" || ans[0]-'0' < num[i]-'0')
+                    ans=num.substr(i-1,3);
             }
-            else
-                prevLen=1;
         }
         return ans;
     }
