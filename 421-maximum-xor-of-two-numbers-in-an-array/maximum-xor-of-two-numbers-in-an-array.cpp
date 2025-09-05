@@ -40,26 +40,14 @@ class Trie
             {
                 int bitPos=31-i;
                 int x=num>>bitPos;
-                if(x&1) // bit at bitPos is 1
-                {
-                    if(temp->children[0])
-                    {
-                        temp=temp->children[0];
-                        ans=(ans|(1<<bitPos));
-                    }
-                    else
-                        temp=temp->children[1];
+                int digit=(x&1)>0 ? 1 : 0;
+                if(temp->children[!digit]) // opposite bit present
+                {   
+                    temp=temp->children[!digit];
+                    ans=(ans|(1<<bitPos));
                 }
                 else
-                {
-                    if(temp->children[1])
-                    {
-                        temp=temp->children[1];
-                        ans=(ans|(1<<bitPos));
-                    }
-                    else
-                        temp=temp->children[0];
-                }
+                    temp=temp->children[digit];
             }
             return ans;
         }
