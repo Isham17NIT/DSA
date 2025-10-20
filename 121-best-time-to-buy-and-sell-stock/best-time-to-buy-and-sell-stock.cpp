@@ -1,24 +1,21 @@
 class Solution 
 {
-private:
-    void findMaxProfit(int idx,int minBuy,int &maxProfit,vector<int> &prices)
-    {
-        if(idx==prices.size())
-            return;
-        //sell
-        int profit = prices[idx] - minBuy;
-        maxProfit = max(maxProfit, profit);
-
-        //buy
-        findMaxProfit(idx+1,min(minBuy,prices[idx]),maxProfit,prices);
-        return;
-    }
 public:
     int maxProfit(vector<int>& prices) 
     {
-        int minBuy = prices[0]; //minm buy price
-        int maxProfit = 0;
-        findMaxProfit(1,minBuy,maxProfit,prices);
+        vector<int> nextGreatestPrice(prices.size());
+        int maxProfit=0;
+        for(int i=prices.size()-1;i>=0;i--)
+        {
+            if(i==prices.size()-1 || prices[i]>=nextGreatestPrice[i+1])
+                nextGreatestPrice[i]=prices[i];
+            else
+                nextGreatestPrice[i]=nextGreatestPrice[i+1];                
+        }
+        for(int i=0;i<prices.size();i++)
+        {
+            maxProfit=max(maxProfit, nextGreatestPrice[i]-prices[i]);
+        }
         return maxProfit;
     }
 };
