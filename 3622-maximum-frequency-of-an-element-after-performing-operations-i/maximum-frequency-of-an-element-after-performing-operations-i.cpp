@@ -1,24 +1,25 @@
 class Solution {
-private:
-    int findFreq(vector<int> &nums, int val)
-    {
-        auto it1=lower_bound(nums.begin(),nums.end(),val);
-        auto it2=upper_bound(nums.begin(),nums.end(),val);
-        return (it2-nums.begin()) - (it1-nums.begin());
-    }
 public:
     int maxFrequency(vector<int>& nums, int k, int numOps) 
     {
-        int maxFreq=0;
+        int maxFreq=0, n=nums.size()-1;
         sort(nums.begin(),nums.end());
-        for(int i=nums[0];i<=nums[nums.size()-1];i++)
+        vector<int> freq(nums[n]+k+1,0);
+        for(int i:nums)
         {
-            auto it1=lower_bound(nums.begin(),nums.end(),i-k);
-            auto it2=upper_bound(nums.begin(),nums.end(),i+k);
-
-            //find number of elements in range [i-k, i+k]
-            int numElements=(it2-nums.begin())-(it1-nums.begin());
-            int currFreq=findFreq(nums, i);
+            freq[i]+=1;
+        }
+        //calculate cumulative frequencies
+        for(int i=1;i<freq.size();i++)
+        {
+            freq[i]+=freq[i-1];
+        }
+        for(int i=nums[0];i<=nums[n];i++)
+        {
+            int l=i-k-1<0 ? 0 : freq[i-k-1];
+            int r=freq[i+k];
+            int numElements=r-l;
+            int currFreq=i>0 ? freq[i]-freq[i-1] : freq[i];
             int reqOps=numElements-currFreq; //requiredOperations
             if(reqOps<=numOps)
                 maxFreq=max(maxFreq, numElements);
