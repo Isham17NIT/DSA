@@ -1,17 +1,34 @@
 class Solution {
 private:
     vector<vector<int>> dirs={{-1,0},{0,1},{1,0},{0,-1}};
-    bool isPossible(int i,int j,vector<vector<int>> &grid, int time, vector<vector<bool>> &visited)
+    bool isValid(int i,int j, int n, vector<vector<bool>> &visited)
     {
-        if(i<0 || j<0 || i>=grid.size() || j>=grid.size() || visited[i][j] || grid[i][j]>time)
+        if(i<0 || j<0 || i>=n || j>=n || visited[i][j])
             return false;
-        if(i==grid.size()-1 && j==grid.size()-1) //dest
-            return true;
-        visited[i][j]=true;
-        for(int k=0;k<4;k++)
+        return true;
+    }
+    bool isPossible(vector<vector<int>> &grid, int time, vector<vector<bool>> &visited)
+    {
+        int n=grid.size();
+        queue<pair<int,int>> q;
+        q.push({0,0});
+        visited[0][0]=true;
+        while(!q.empty())
         {
-            if(isPossible(i+dirs[k][0], j+dirs[k][1], grid, time, visited))
+            pair<int,int> curr=q.front();
+            q.pop();
+            if(curr.first==n-1 && curr.second==n-1)
                 return true;
+            for(int k=0;k<4;k++)
+            {
+                int newRow=curr.first+dirs[k][0];
+                int newCol=curr.second+dirs[k][1];
+                if(isValid(newRow, newCol, n, visited) && grid[newRow][newCol]<=time)
+                {
+                    visited[newRow][newCol]=true;
+                    q.push({newRow, newCol});
+                }
+            }
         }
         return false;
     }
@@ -25,7 +42,7 @@ public:
         {
             int mid=(low+high)>>1;
             vector<vector<bool>> visited(n,vector<bool>(n,false));
-            if(isPossible(0,0,grid,mid,visited))
+            if(isPossible(grid,mid,visited))
             {
                 ans=mid;
                 high=mid-1;
