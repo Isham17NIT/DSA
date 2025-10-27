@@ -1,16 +1,5 @@
 class Solution 
 {
-private:
-    int countDevices(string s)
-    {
-        int cnt=0;
-        for(char c : s)
-        {
-            if(c=='1')
-                cnt++;
-        }
-        return cnt;
-    }
 public:
     int numberOfBeams(vector<string>& bank) 
     {
@@ -18,7 +7,8 @@ public:
         vector<int> deviceCnt(bank.size(),0);
         for(int k=0;k<bank.size();k++)
         {
-            deviceCnt[k]=countDevices(bank[k]);
+            string s=bank[k];
+            deviceCnt[k]=count(s.begin(), s.end(), '1');
         }
         while(j<bank.size())
         {
@@ -28,7 +18,8 @@ public:
             }
             else if(deviceCnt[j]==0)
                 j++;
-            else{
+            else
+            {
                 cnt+=(deviceCnt[i]*deviceCnt[j]);
                 i=j;
                 j++;
