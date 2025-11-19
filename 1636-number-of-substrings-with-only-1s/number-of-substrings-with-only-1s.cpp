@@ -1,4 +1,9 @@
 class Solution {
+private:
+    long long findSubstrings(long long n)
+    {
+        return n*(n+1)/2;
+    }
 public:
     int numSub(string s) 
     {
@@ -16,7 +21,7 @@ public:
             else if(s[i]=='0')
             {
                 int n=i-prevIdx;  // no. of consecutive ones
-                ans=(ans+(long long)n*(long long)(n+1)/2)%mod;
+                ans=(ans+findSubstrings(n))%mod;
                 prevIdx=-1;
             }
             else //s[i]=='1'
@@ -29,7 +34,7 @@ public:
             else
             {
                 int n=s.length()-prevIdx;  // no. of consecutive ones
-                ans=(ans+(long long)n*(long long)(n+1)/2)%mod;
+                ans=(ans+findSubstrings(n))%mod;
             }
         }
         return ans;
