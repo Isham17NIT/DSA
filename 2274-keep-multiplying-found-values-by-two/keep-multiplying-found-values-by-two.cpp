@@ -2,8 +2,12 @@ class Solution {
 public:
     int findFinalValue(vector<int>& nums, int original) 
     {
-        sort(nums.begin(),nums.end());
-        while(binary_search(nums.begin(),nums.end(),original))
+        unordered_set<int> s;
+        for(int i : nums)
+        {
+            s.insert(i);
+        }
+        while(s.find(original)!=s.end())
         {
             original*=2;
         }
