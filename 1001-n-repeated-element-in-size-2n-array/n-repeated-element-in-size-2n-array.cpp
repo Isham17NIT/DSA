@@ -1,16 +1,13 @@
-class Solution 
-{
+class Solution {
 public:
     int repeatedNTimes(vector<int>& nums) 
     {
-        set<int> s;
-        for(int i : nums)
+        for(int i=0;i<nums.size()-2;i++)
         {
-            if(s.find(i)==s.end())
-                s.insert(i);
-            else
-                return i;
+            if(nums[i]==nums[i+1] || nums[i]==nums[i+2])
+                return nums[i];
         }
-        return -1;
+        // no match found
+        return nums[nums.size()-1];
     }
 };
