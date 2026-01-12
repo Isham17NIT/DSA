@@ -8,26 +8,24 @@ public:
         for(int i=1;i<points.size();i++)
         {
             int x = points[i][0], y=points[i][1];
-            while(prev[0] != x && prev[1] != y)
-            {
-                if(prev[0] < x && prev[1] < y){
-                    prev[0] += 1;
-                    prev[1] += 1;
-                }
-                else if(prev[0] < x && prev[1] > y){
-                    prev[0] += 1;
-                    prev[1] -= 1;
-                }
-                else if(prev[0] > x && prev[1] < y){
-                    prev[0] -= 1;
-                    prev[1] += 1;
-                }   
-                else{
-                    prev[0] -= 1;
-                    prev[1] -= 1;
-                } 
-                time++;            
+            int dis = min(abs(prev[0]-x), abs(prev[1]-y));
+            if(prev[0] < x && prev[1] < y){
+                prev[0]+=dis;
+                prev[1]+=dis;
+            }          
+            else if(prev[0] < x && prev[1] > y){
+                prev[0] += dis;
+                prev[1] -= dis;
             }
+            else if(prev[0] > x && prev[1] < y){
+                prev[0] -= dis;
+                prev[1] += dis;
+            }   
+            else if(prev[0] > x && prev[1] > y){
+                prev[0] -= dis;
+                prev[1] -= dis;
+            }
+            time+=abs(dis);
             time += abs(x-prev[0]) + abs(y-prev[1]);
             prev = points[i];
         }
