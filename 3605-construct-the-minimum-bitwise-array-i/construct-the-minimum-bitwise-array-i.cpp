@@ -3,12 +3,22 @@ class Solution
 private:
     int findMinCandidate(int x)
     {
-        for(int i=1;i<x;i++)
+        int pos=0; // LSB
+        int temp = x;
+        while(x > 0)
         {
-            if((i | (i+1)) == x)
-                return i;
+            int bit=x&1;
+            if(bit==0)
+                break;
+            x>>=1;
+            pos++;
         }
-        return -1;
+        if(pos==0) // 0 present at the end
+            return -1;
+
+        pos-=1; // posn of 1st one after zero
+        temp = temp & ~(1 << pos);
+        return temp;
     }
 public:
     vector<int> minBitwiseArray(vector<int>& nums) 
